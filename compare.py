@@ -64,13 +64,8 @@ def print_removed(text):
 db1_dict = get_table_dict("database1")
 db2_dict = get_table_dict("database2")
 
-#print(db1_dict)
-
 added, removed = compare(db1_dict, db2_dict)
 for item in added:
     print_added(f"|table_catalog:{item['table_catalog']}|table_schema:{item['table_schema']}|table name:{item['table_name']}|")
 for item in removed:
     print_removed(f"|table_catalog:{item['table_catalog']}|table_schema:{item['table_schema']}|table name:{item['table_name']}|")
-
-#print(added)
-#print(removed)

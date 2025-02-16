@@ -12,3 +12,6 @@ port = 5435
 database = dvdrental
 user = postgres
 password = mypassword
+
+[tablesquery]
+sqlfile = sql/tables.sql
