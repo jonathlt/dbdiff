@@ -29,29 +29,29 @@ def get_sql(query_name, ini_file):
         sql = file_object.read()
     return sql
 
-def get_table_dict(db_alias):
-    table_sql = get_sql("tablesquery", "config.ini")
-    table_dict = {}
-    table_dict["tables"] = []
+def get_dict(db_alias, queryname, dictkey):
+    sql = get_sql(queryname, "config.ini")
+    dict = {}
+    dict[dictkey] = []
     conn = get_connection(db_alias, "config.ini")
-    for row in conn.run(table_sql):
+    for row in conn.run(sql):
         row_dict = {}
         index = 0
         for col in conn.columns:
             row_dict[col['name']] = row[index]
             index = index+1
-        table_dict["tables"].append(row_dict)
-    return table_dict
+        dict[dictkey].append(row_dict)
+    return dict
 
-def compare(dict1, dict2):
+def compare(dict1, dict2, dictkey):
     added = []
     removed = []
-    for item in dict1['tables']:
-        if item not in dict2['tables']:
+    for item in dict1[dictkey]:
+        if item not in dict2[dictkey]:
             removed.append(item)
 
-    for item in dict2['tables']:
-        if item not in dict1['tables']:
+    for item in dict2[dictkey]:
+        if item not in dict1[dictkey]:
             added.append(item)
     return added, removed
     
@@ -61,11 +61,26 @@ def print_added(text):
 def print_removed(text):
     print(Fore.RED + "-" + text)
 
-db1_dict = get_table_dict("database1")
-db2_dict = get_table_dict("database2")
+def print_dict_items(dict, state):
+    for item in dict:
+        output = ""
+        for k,v in item.items():
+            output += f"|{k}:{v}|"
+        if state == 'added':
+            print_added(output)
+        else:
+            print_removed(output)
 
-added, removed = compare(db1_dict, db2_dict)
-for item in added:
-    print_added(f"|table_catalog:{item['table_catalog']}|table_schema:{item['table_schema']}|table name:{item['table_name']}|")
-for item in removed:
-    print_removed(f"|table_catalog:{item['table_catalog']}|table_schema:{item['table_schema']}|table name:{item['table_name']}|")
+db1_dict = get_dict("database1", "tablesquery", "tables")
+db2_dict = get_dict("database2", "tablesquery", "tables")
+
+added, removed = compare(db1_dict, db2_dict, "tables")
+print_dict_items(added, "added")
+print_dict_items(removed, "removed")
+
+db1_dict = get_dict("database1", "functionsquery", "functions")
+db2_dict = get_dict("database2", "functionsquery", "functions")
+
+added, removed = compare(db1_dict, db2_dict, "functions")
+print_dict_items(added, "added")
+print_dict_items(removed, "removed")

@@ -28,6 +28,9 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
     [tablesquery]
     sqlfile = sql/tables.sql
 
+    [functionsquery]
+    sqlfile = sql/functions.sql
+
 ## How to run
     python compare.py
 ## Sample output
@@ -40,7 +43,6 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
 ## Enhancements
 * Show differences in table columns
 * Show differences in table data (pygeodiff?)
-* Differences in functions
 * Differences in function code
 * Trigger differences
 * Event trigger differences
