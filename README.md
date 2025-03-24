@@ -47,3 +47,6 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
 * Trigger differences
 * Event trigger differences
 * Index and constraint differences
+* Iterate through all databases on cluster
+* Modify to use the click click interface
+* Provide database stats, e.g. schema count and table count
