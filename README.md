@@ -42,11 +42,14 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
 ```
 ## Enhancements
 * Show differences in table columns
+* Show differences in views
+* Output queries to json rather than / in addition to dict for debugging purposes
+* Filter out 'expected' differences
 * Show differences in table data (pygeodiff?)
 * Differences in function code
 * Trigger differences
 * Event trigger differences
 * Index and constraint differences
 * Iterate through all databases on cluster
-* Modify to use the click click interface
 * Provide database stats, e.g. schema count and table count
+* Make use of click.echo

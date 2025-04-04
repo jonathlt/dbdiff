@@ -15,3 +15,6 @@ password = mypassword
 
 [tablesquery]
 sqlfile = sql/tables.sql
+
+[functionsquery]
+sqlfile = sql/functions.sql

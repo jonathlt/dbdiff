@@ -2,6 +2,9 @@ import pg8000.native
 import configparser
 from pathlib import Path
 from colorama import just_fix_windows_console, Fore
+import click
+import sys
+import os
 just_fix_windows_console()
 
 def get_connection(db_alias, ini_file):
@@ -55,32 +58,57 @@ def compare(dict1, dict2, dictkey):
             added.append(item)
     return added, removed
     
-def print_added(text):
-    print(Fore.GREEN + "+" + text)
+def print_added(fileobj, text):
+    if fileobj == sys.stdout:
+        fileobj.write(Fore.GREEN + "+" + text + os.linesep)
+    else:
+        fileobj.write("+" + text + os.linesep)
 
-def print_removed(text):
-    print(Fore.RED + "-" + text)
+def print_removed(fileobj, text):
+    if fileobj == sys.stdout:
+        fileobj.write(Fore.RED + "-" + text + os.linesep)
+    else:
+        fileobj.write("-" + text + os.linesep)
 
-def print_dict_items(dict, state):
+def print_dict_items(filename, dict, state):
     for item in dict:
         output = ""
         for k,v in item.items():
             output += f"|{k}:{v}|"
         if state == 'added':
-            print_added(output)
+            print_added(filename, output)
         else:
-            print_removed(output)
+            print_removed(filename, output)
 
-db1_dict = get_dict("database1", "tablesquery", "tables")
-db2_dict = get_dict("database2", "tablesquery", "tables")
+option_output = click.option("-o", "--output", "fileobj", type=click.File("w"), default=sys.stdout, help="Output file name")
 
-added, removed = compare(db1_dict, db2_dict, "tables")
-print_dict_items(added, "added")
-print_dict_items(removed, "removed")
+@click.group()
+def comparisons():
+    pass
 
-db1_dict = get_dict("database1", "functionsquery", "functions")
-db2_dict = get_dict("database2", "functionsquery", "functions")
+@option_output
+@click.command()
+def tables(fileobj):
 
-added, removed = compare(db1_dict, db2_dict, "functions")
-print_dict_items(added, "added")
-print_dict_items(removed, "removed")
+    db1_dict = get_dict("database1", "tablesquery", "tables")
+    db2_dict = get_dict("database2", "tablesquery", "tables")
+
+    added, removed = compare(db1_dict, db2_dict, "tables")
+    print_dict_items(fileobj, added, "added")
+    print_dict_items(fileobj, removed, "removed")
+
+@option_output
+@click.command()
+def functions(fileobj):
+    db1_dict = get_dict("database1", "functionsquery", "functions")
+    db2_dict = get_dict("database2", "functionsquery", "functions")
+
+    added, removed = compare(db1_dict, db2_dict, "functions")
+    print_dict_items(fileobj, added, "added")
+    print_dict_items(fileobj, removed, "removed")
+
+comparisons.add_command(tables)
+comparisons.add_command(functions)
+
+if __name__ == '__main__':
+    comparisons()
