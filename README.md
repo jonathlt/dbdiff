@@ -32,7 +32,15 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
     sqlfile = sql/functions.sql
 
 ## How to run
-    python compare.py
+    Usage: compare.py [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      functions
+      tables
+      tablesrowcount
 ## Sample output
 * table actor copy exists in database2 but not database1
 * table city copy exists in database1 but not database2
