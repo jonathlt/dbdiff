@@ -38,6 +38,7 @@ def comparisons():
 def tables(fileobj):
     db1_dict = get_data("database1", "tablesquery", "tables")
     db2_dict = get_data("database2", "tablesquery", "tables")
+    db1_dict, db2_dict = exclusions(db1_dict, db2_dict, "tables")
     added, removed = compare(db1_dict, db2_dict, "tables")
     print_dict_items(fileobj, added, "added")
     print_dict_items(fileobj, removed, "removed")
@@ -47,6 +48,7 @@ def tables(fileobj):
 def tablesrowcount(fileobj):
     db1_dict = get_data("database1", "tablesrowcountquery", "tablesrowcount")
     db2_dict = get_data("database2", "tablesrowcountquery", "tablesrowcount")
+    db1_dict, db2_dict = exclusions(db1_dict, db2_dict, "tablesrowcount")
     added, removed = compare(db1_dict, db2_dict, "tablesrowcount")
     print_dict_items(fileobj, added, "added")
     print_dict_items(fileobj, removed, "removed")
