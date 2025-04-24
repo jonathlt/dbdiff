@@ -61,3 +61,9 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
 * Iterate through all databases on cluster
 * Provide database stats, e.g. schema count and table count
 * Make use of click.echo
+
+## Running the tests
+
+    python -m unittest
+
+from this folder
