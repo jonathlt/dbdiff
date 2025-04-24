@@ -2,6 +2,7 @@ import pg8000.native
 import configparser
 import logging
 from pathlib import Path
+from common import csvfile_to_list
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,13 @@ def get_connection(db_alias, ini_file):
                                     port=port, 
                                     password=password, 
                                     database=database)
+
+def get_database_name(db_alias):
+    config_object = configparser.ConfigParser()
+    with open('config.ini',"r") as file_object:
+        config_object.read_file(file_object)
+    return config_object.get(db_alias,"database")
+
 
 def get_sql(query_name, ini_file):
     sql = None
@@ -51,3 +59,11 @@ def get_data(db_alias, queryname, dictkey):
     dict[dictkey] = []
     conn = get_connection(db_alias, "config.ini")
     return run_sql(conn, sql, dictkey)
+
+def build_exclusion_list(object_type):
+    exclusion_list = []
+    exclusions_dir = Path('exclusions')
+    object_path = exclusions_dir / object_type
+    for exclusions_file in object_path.iterdir():
+        exclusion_list.extend(csvfile_to_list(exclusions_file))
+    return exclusion_list

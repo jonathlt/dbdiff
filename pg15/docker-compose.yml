@@ -1,6 +1,8 @@
 services:
   postgres:
-    image: postgres:15.10
+    build: 
+      context: .
+      dockerfile: dockerfile-db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
@@ -8,4 +10,4 @@ services:
     volumes: 
       - ./data:/var/lib/postgresql/data
     ports:
-      - 5435:5432
+      - 5436:5432
