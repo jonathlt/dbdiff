@@ -30,3 +30,6 @@ dependencies = [
 
 [tool.hatch.version]
 path = "__about__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
