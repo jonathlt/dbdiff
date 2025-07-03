@@ -64,6 +64,9 @@ def build_exclusion_list(object_type):
     exclusion_list = []
     exclusions_dir = Path('exclusions')
     object_path = exclusions_dir / object_type
+    if not object_path.exists():
+        logger.warning(f"No exclusions found for {object_type}.")
+        return exclusion_list
     for exclusions_file in object_path.iterdir():
         exclusion_list.extend(csvfile_to_list(exclusions_file))
     return exclusion_list
