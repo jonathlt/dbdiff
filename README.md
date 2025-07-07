@@ -31,6 +31,14 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
     [functionsquery]
     sqlfile = sql/functions.sql
 
+## How to install
+Create a virtual environment
+
+Activate the virtual environment
+
+    pip install -r requirements.txt
+
+
 ## How to run
     Usage: compare.py [OPTIONS] COMMAND [ARGS]...
 
