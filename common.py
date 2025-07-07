@@ -1,8 +1,7 @@
 from csv import DictReader
 import sys
 import os
-from colorama import just_fix_windows_console, Fore
-just_fix_windows_console()
+import click
 
 def remove_key_and_value(list, key):
     for item in list:
@@ -21,13 +20,13 @@ def csvfile_to_list(csvfile):
 
 def print_added(fileobj, text):
     if fileobj == sys.stdout:
-        fileobj.write(Fore.GREEN + "+" + text + os.linesep)
+        fileobj.write(click.style("+" + text + os.linesep, fg='green'))
     else:
         fileobj.write("+" + text + os.linesep)
 
 def print_removed(fileobj, text):
     if fileobj == sys.stdout:
-        fileobj.write(Fore.RED + "-" + text + os.linesep)
+        fileobj.write(click.style("-" + text + os.linesep, fg='red'))
     else:
         fileobj.write("-" + text + os.linesep)
 
