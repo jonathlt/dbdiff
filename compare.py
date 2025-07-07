@@ -28,40 +28,44 @@ def exclusions(dict1, dict2, dictkey):
     return dict1, dict2 
     
 option_output = click.option("-o", "--output", "fileobj", type=click.File("w"), default=sys.stdout, help="Output file name")
+option_outputformat = click.option("-f", "--outputformat", "outputformat", type=click.Choice(['csv', 'json'], case_sensitive=False), default='csv', help="Output format: csv or json")
 
 @click.group()
 def comparisons():
     pass
 
 @option_output
+@option_outputformat
 @click.command()
-def tables(fileobj):
+def tables(fileobj, outputformat):
     db1_dict = get_data("database1", "tablesquery", "tables")
     db2_dict = get_data("database2", "tablesquery", "tables")
     db1_dict, db2_dict = exclusions(db1_dict, db2_dict, "tables")
     added, removed = compare(db1_dict, db2_dict, "tables")
-    print_dict_items(fileobj, added, "added")
-    print_dict_items(fileobj, removed, "removed")
+    print_dict_items(fileobj, added, "added", outputformat)
+    print_dict_items(fileobj, removed, "removed", outputformat)
 
 @option_output
+@option_outputformat
 @click.command()
-def tablesrowcount(fileobj):
+def tablesrowcount(fileobj, outputformat):
     db1_dict = get_data("database1", "tablesrowcountquery", "tablesrowcount")
     db2_dict = get_data("database2", "tablesrowcountquery", "tablesrowcount")
     db1_dict, db2_dict = exclusions(db1_dict, db2_dict, "tablesrowcount")
     added, removed = compare(db1_dict, db2_dict, "tablesrowcount")
-    print_dict_items(fileobj, added, "added")
-    print_dict_items(fileobj, removed, "removed")
+    print_dict_items(fileobj, added, "added", outputformat)
+    print_dict_items(fileobj, removed, "removed", outputformat)
 
 @option_output
+@option_outputformat
 @click.command()
-def functions(fileobj):
+def functions(fileobj, outputformat):
     db1_dict = get_data("database1", "functionsquery", "functions")
     db2_dict = get_data("database2", "functionsquery", "functions")
     db1_dict, db2_dict = exclusions(db1_dict, db2_dict, "functions")
     added, removed = compare(db1_dict, db2_dict, "functions")
-    print_dict_items(fileobj, added, "added")
-    print_dict_items(fileobj, removed, "removed")
+    print_dict_items(fileobj, added, "added", outputformat)
+    print_dict_items(fileobj, removed, "removed", outputformat)
 
 comparisons.add_command(tables)
 comparisons.add_command(functions)
