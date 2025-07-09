@@ -71,6 +71,9 @@ comparisons.add_command(tables)
 comparisons.add_command(functions)
 comparisons.add_command(tablesrowcount)
 
-if __name__ == '__main__':
+def main():
     setup_logging()
     comparisons()
+
+if __name__ == '__main__':
+    main()

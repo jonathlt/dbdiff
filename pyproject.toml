@@ -27,6 +27,8 @@ dependencies = [
     "click"
 ]
 
+[project.scripts]
+dbdiff = "compare:main"
 [tool.hatch.version]
 path = "__about__.py"
 
