@@ -24,7 +24,6 @@ classifiers = [
 ]
 dependencies = [
     "pg8000",
-    "colorama",
     "click"
 ]
 
