@@ -1,15 +1,21 @@
 import pg8000.native
 import configparser
 import logging
-from pathlib import Path
+import sys
+import pathlib
+from pathlib import Path, PurePath
 from common import csvfile_to_list
 
 logger = logging.getLogger(__name__)
 
 def get_connection(db_alias, ini_file):
     config_object = configparser.ConfigParser()
-    with open(ini_file,"r") as file_object:
-        config_object.read_file(file_object)
+    try:
+        with open(ini_file,"r") as file_object:
+            config_object.read_file(file_object)
+    except FileNotFoundError:
+        print("Problem reading config file. Please check the file exists and is readable.")
+        sys.exit(1)
     port=config_object.get(db_alias,"port")
     user=config_object.get(db_alias,"user")
     host=config_object.get(db_alias,"host")
@@ -23,19 +29,33 @@ def get_connection(db_alias, ini_file):
 
 def get_database_name(db_alias):
     config_object = configparser.ConfigParser()
-    with open('config.ini',"r") as file_object:
-        config_object.read_file(file_object)
+    try:
+        with open('config.ini',"r") as file_object:
+            config_object.read_file(file_object)
+    except FileNotFoundError:
+        print("Problem reading config.ini file. Please check the file exists and is readable.")
+        sys.exit(1)
     return config_object.get(db_alias,"database")
-
 
 def get_sql(query_name, ini_file):
     sql = None
     config_object = configparser.ConfigParser()
-    with open(ini_file,"r") as file_object:
-        config_object.read_file(file_object)
-    file=config_object.get(query_name, "sqlfile")
-    with open(Path(file)) as file_object:
-        sql = file_object.read()
+    try:
+        with open(ini_file,"r") as file_object:
+            config_object.read_file(file_object)
+    except FileNotFoundError:
+        print("Problem reading config.ini file. Please check the file exists and is readable.")
+        sys.exit(1)
+
+    file = config_object.get(query_name, "sqlfile")
+    file = pathlib.Path(__file__).parent.resolve() / file
+
+    try:
+        with open(Path(file)) as file_object:
+            sql = file_object.read()
+    except FileNotFoundError:
+        print(f"Problem reading SQL file {file}. Please check the file exists and is readable.")
+        sys.exit(1)
     logger.debug(f'sql = {sql}')
     return sql
 
