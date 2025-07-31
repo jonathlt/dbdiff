@@ -6,9 +6,14 @@ This tool is intended to be used to compare postgres database schemas. Currently
 ## Why?
 I needed to be able to compare databases which were held in very different versions of postgres, namely versions 9 and 15. Comparing dumps of databases tended not to provide good results, so have decided to go down the route of comparing the outputs produced using queries.
 
+## How to install command 'dbdiff' using pipx (local source)
+* Install pipx
+* Clone code
+     
+    pipx install .
+
 ## How to configure
 Set up a config.ini file similar to the one below. database1 and database2 credentials need to be populated. The [tablesquery] section can be left unchanged.
-
 
     [database1]
     host = localhost
@@ -31,24 +36,19 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
     [functionsquery]
     sqlfile = sql/functions.sql
 
-## How to install
-Create a virtual environment
+## How to run as a command
+Usage: dbdiff [OPTIONS] COMMAND [ARGS]...
 
-Activate the virtual environment
+Options:
+  --help  Show this message and exit.
 
-    pip install -r requirements.txt
+Commands:
+  functions
+  tables
+  tablesrowcount
 
+NB Ensure config.ini is in the same folder that the command is run 
 
-## How to run
-    Usage: compare.py [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-      --help  Show this message and exit.
-
-    Commands:
-      functions
-      tables
-      tablesrowcount
 ## Sample output
 * table actor copy exists in database2 but not database1
 * table city copy exists in database1 but not database2
