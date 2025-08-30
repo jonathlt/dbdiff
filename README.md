@@ -75,3 +75,39 @@ NB Ensure config.ini is in the same folder that the command is run
     python -m unittest
 
 from this folder
+
+## Using local docker instances for testing
+* Install docker compose
+* Navigate to the pg9 or pg15 folder
+
+    docker-compose up
+
+* postgres will be accessible on the port mentioned in the docker compose file
+
+    ports:
+      - 5436:5432
+
+* Port access will be on 5436 in the above case
+
+## Load data into docker instance
+
+get the sample database:
+
+e.g.
+wget https://github.com/robconery/dvdrental/archive/master.zip
+
+unzip master
+
+restore the data to the docker instance
+
+create dvdrental database in the docker instance
+
+create database dvdrental
+
+run the script to restore from the sample database in the docker instance
+
+./restore.sh dvdrental-master/dvdrental.tar
+
+
+
+
