@@ -9,8 +9,11 @@ I needed to be able to compare databases which were held in very different versi
 ## How to install command 'dbdiff' using pipx (local source)
 * Install pipx
 * Clone code
-     
+
+Then run
+````     
     pipx install .
+````
 
 ## How to configure
 Set up a config.ini file similar to the one below. database1 and database2 credentials need to be populated. The [tablesquery] section can be left unchanged.
@@ -37,15 +40,15 @@ Set up a config.ini file similar to the one below. database1 and database2 crede
     sqlfile = sql/functions.sql
 
 ## How to run as a command
-Usage: dbdiff [OPTIONS] COMMAND [ARGS]...
+    Usage: dbdiff [OPTIONS] COMMAND [ARGS]...
 
-Options:
-  --help  Show this message and exit.
+    Options:
+      --help  Show this message and exit.
 
-Commands:
-  functions
-  tables
-  tablesrowcount
+    Commands:
+      functions
+      tables
+      tablesrowcount
 
 NB Ensure config.ini is in the same folder that the command is run 
 
@@ -79,14 +82,14 @@ from this folder
 ## Using local docker instances for testing
 * Install docker compose
 * Navigate to the pg9 or pg15 folder
-
-    docker-compose up
-
+````
+docker-compose up
+````
 * postgres will be accessible on the port mentioned in the docker compose file
-
-    ports:
-      - 5436:5432
-
+````
+ports:
+  - 5436:5432
+````
 * Port access will be on 5436 in the above case
 
 ## Load data into docker instance
@@ -94,19 +97,21 @@ from this folder
 get the sample database:
 
 e.g.
+````
 wget https://github.com/robconery/dvdrental/archive/master.zip
 
 unzip master
+````
 
 restore the data to the docker instance
 
 create dvdrental database in the docker instance
 
-create database dvdrental
+    create database dvdrental
 
 run the script to restore from the sample database in the docker instance
 
-./restore.sh dvdrental-master/dvdrental.tar
+    ./restore.sh dvdrental-master/dvdrental.tar
 
 
 
