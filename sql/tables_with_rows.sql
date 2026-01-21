@@ -16,7 +16,7 @@ BEGIN
 						FROM information_schema.tables where table_schema not in (''pg_catalog'',''information_schema'') and table_type = ''BASE TABLE''';
    EXECUTE sql_create_table;
    FOR result_row IN SELECT * FROM table_list LOOP 
-      sql_update_table := 'UPDATE table_list SET rowcount = (SELECT COUNT(*) FROM ' || result_row.table_schema || '.' || result_row.table_name || ')' 
+      sql_update_table := 'UPDATE table_list SET rowcount = (SELECT COUNT(*) FROM "' || result_row.table_schema || '"."' || result_row.table_name || '")' 
 	  	|| ' WHERE table_name = ''' || result_row.table_name || ''' AND table_schema = ''' || result_row.table_schema || '''';
 
 	  RAISE NOTICE 'sql_update_table: %', sql_update_table;
