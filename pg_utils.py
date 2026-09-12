@@ -3,8 +3,7 @@ import configparser
 import logging
 import sys
 import pathlib
-from pathlib import Path, PurePath
-from common import csvfile_to_list
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
 

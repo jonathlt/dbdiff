@@ -13,11 +13,11 @@ database = dvdrental
 user = postgres
 password = mypassword
 
-[tablesquery]
+[tables_query]
 sqlfile = sql/tables.sql
 
-[functionsquery]
+[functions_query]
 sqlfile = sql/functions.sql
 
-[tablesrowcountquery]
+[tables_rowcount_query]
 sqlfile = sql/tables_with_rows.sql
