@@ -1,4 +1,9 @@
-from common import get_data, print_dict_items, csv_file_to_list
+from common import print_dict_items, csv_file_to_list
+from pg_utils import get_data
+from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
 
 def compare(dict1, dict2, dict_key):
     added = []
@@ -20,7 +25,7 @@ def build_exclusion_list(object_type):
         logger.warning(f"No exclusions found for {object_type}.")
         return exclusion_list
     for exclusions_file in object_path.iterdir():
-        exclusion_list.extend(csvfile_to_list(exclusions_file))
+        exclusion_list.extend(csv_file_to_list(exclusions_file))
     return exclusion_list
 
 def exclusions(dict1, dict2, dict_key):
