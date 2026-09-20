@@ -1,4 +1,5 @@
-from common import print_dict_items, csv_file_to_list
+from common import csv_file_to_list
+from formatting import print_dict_items
 from pg_utils import get_data
 from pathlib import Path
 import logging

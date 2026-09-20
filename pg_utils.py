@@ -46,7 +46,7 @@ def get_sql(query_name, ini_file):
         print("Problem reading config.ini file. Please check the file exists and is readable.")
         sys.exit(1)
 
-    file = config_object.get(query_name, "sqlfile")
+    file = config_object.get(query_name, "sql_file")
     file = pathlib.Path(__file__).parent.resolve() / file
 
     try:
@@ -58,24 +58,24 @@ def get_sql(query_name, ini_file):
     logger.debug(f'sql = {sql}')
     return sql
 
-def run_sql(conn, sql, resultkey):
+def run_sql(conn, sql, result_key):
     logger.debug(f"sql {sql}")
-    logger.debug(f"resultkey {resultkey}")
+    logger.debug(f"result_key {result_key}")
     dict = {}
-    dict[resultkey] = []
+    dict[result_key] = []
     for row in conn.run(sql):
         row_dict = {}
         index = 0
         for col in conn.columns:
             row_dict[col['name']] = row[index]
             index = index+1
-        dict[resultkey].append(row_dict)
+        dict[result_key].append(row_dict)
     return dict
 
-def get_data(db_alias, queryname, dictkey):
+def get_data(db_alias, queryname, dict_key):
     sql = get_sql(queryname, "config.ini")
     dict = {}
-    dict[dictkey] = []
+    dict[dict_key] = []
     conn = get_connection(db_alias, "config.ini")
-    return run_sql(conn, sql, dictkey)
+    return run_sql(conn, sql, dict_key)
 
