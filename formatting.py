@@ -1,32 +1,38 @@
-from common import write_dict_to_csv, write_dict_to_json
+from common import write_dict_to_csv, write_dict_to_html
 import click
 import sys
 import os
 
-def print_added(fileobj, text_output, output_format, dict):
-    if fileobj == sys.stdout:
-        fileobj.write(click.style("not in database1" + text_output + os.linesep, fg='green'))
-    else:
-        if output_format == 'json':
-            write_dict_to_json(fileobj, dict, "added")
-        else:
-            write_dict_to_csv(fileobj, dict, "added")
+def format_output(fileobj, dict_added, dict_removed, output_format):
 
-def print_removed(fileobj, text_output, output_format, dict):
-    if fileobj == sys.stdout:
-        fileobj.write(click.style("not in database2" + text_output + os.linesep, fg='red'))
-    else:
-        if output_format == 'json':
-            write_dict_to_json(fileobj, dict, "removed")
-        else:
-            write_dict_to_csv(fileobj, dict, "removed")
+    if output_format == 'text':
+        for item in dict_added:
+            output = ""
+            for k,v in item.items():
+                output += f"|{k}:{v}|"
+            fileobj.write(click.style("added" + output + os.linesep, fg='green'))
+        for item in dict_removed:
+            output = ""
+            for k,v in item.items():
+                output += f"|{k}:{v}|"  
+            fileobj.write(click.style("removed" + output + os.linesep, fg='red'))
 
-def print_dict_items(filename, dict, state, output_format):
-    for item in dict:
-        output = ""
-        for k,v in item.items():
-            output += f"|{k}:{v}|"
-        if state == 'added':
-            print_added(filename, output, output_format, dict)
-        else:
-            print_removed(filename, output, output_format, dict)
+    elif output_format == 'csv':
+        for item in dict_added:
+          item["operation"] = "added"
+        for item in dict_removed:
+          item["operation"] = "removed"
+        merged_dict = dict_added + dict_removed
+        write_dict_to_csv(fileobj, merged_dict)
+
+    elif output_format == 'html':
+        for item in dict_added:
+          item["operation"] = "added"
+        for item in dict_removed:
+          item["operation"] = "removed"
+        merged_dict = dict_added + dict_removed
+        write_dict_to_html(fileobj, merged_dict)        
+     
+
+def print_dict_items(filename, dict_added, dict_removed, output_format):
+    format_output(filename, dict_added,dict_removed, output_format)

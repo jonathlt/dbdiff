@@ -1,7 +1,5 @@
 from csv import DictReader, DictWriter
-import sys
-import os
-import click
+from prettytable import PrettyTable
 import json
 
 def add_column_to_dict(dict, key, value):
@@ -9,12 +7,20 @@ def add_column_to_dict(dict, key, value):
         item[key] = value
     return dict
 
-def write_dict_to_csv(fileobj, dict, operation):
-    dict = add_column_to_dict(dict, "operation", operation)
+def write_dict_to_csv(fileobj, dict):
     with open(fileobj.name, 'w', newline='') as csv_file:
         writer = DictWriter(csv_file, fieldnames=dict[0].keys())
         writer.writeheader()
         writer.writerows(dict)
+
+def write_dict_to_html(fileobj, dict):
+    table = PrettyTable()
+    table.field_names = dict[0].keys()
+    for item in dict:
+        table.add_row(item.values())
+    html_table = table.get_html_string()
+    with open(fileobj.name, 'w') as html_file:
+        html_file.write(html_table)
 
 def write_dict_to_json(fileobj, dict, operation):
     dict = add_column_to_dict(dict, "operation", operation)

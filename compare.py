@@ -9,7 +9,7 @@ def setup_logging():
     logging.basicConfig(filename='comparison.log', level=logging.DEBUG)
 
 option_output = click.option("-o", "--output", "fileobj", type=click.File("w"), default=sys.stdout, help="Output file name")
-option_output_format = click.option("-f", "--output_format", "output_format", type=click.Choice(['csv', 'json'], case_sensitive=False), default='csv', help="Output format: csv or json")
+option_output_format = click.option("-f", "--output_format", "output_format", type=click.Choice(['text','html','csv'], case_sensitive=False), default='text', help="Output format: text, html, csv or json. Text is default.")
 
 @click.group()
 def comparisons():

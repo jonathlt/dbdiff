@@ -14,10 +14,10 @@ user = postgres
 password = mypassword
 
 [tables_query]
-sqlfile = sql/tables.sql
+sql_file = sql/tables.sql
 
 [functions_query]
-sqlfile = sql/functions.sql
+sql_file = sql/functions.sql
 
 [tables_rowcount_query]
-sqlfile = sql/tables_with_rows.sql
+sql_file = sql/tables_with_rows.sql

@@ -24,7 +24,8 @@ classifiers = [
 ]
 dependencies = [
     "pg8000",
-    "click"
+    "click",
+    "prettytable>=3.16.0",
 ]
 
 [project.scripts]

@@ -40,5 +40,4 @@ def process_comparison(fileobj, output_format, query, key):
     db2_dict = get_data("database2", query, key)
     db1_dict, db2_dict = exclusions(db1_dict, db2_dict, key)
     added, removed = compare(db1_dict, db2_dict, key)
-    print_dict_items(fileobj, added, "added", output_format)
-    print_dict_items(fileobj, removed, "removed", output_format)
+    print_dict_items(fileobj, added, removed, output_format)
